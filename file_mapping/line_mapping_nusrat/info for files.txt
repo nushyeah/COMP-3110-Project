@@ -1,0 +1,31 @@
+file1:
+commit:https://github.com/junit-team/junit-framework/commit/d67e5c021a2c120bafc9c7e50e1731cce8d027a2#diff-ddde98f9f58199e0da544b5bfbe37fb665d3ddce219121824ab9865140f735fd
+parent: 5abe0e7
+file: Assertions.java
+changes: +10 -8 (junit)
+
+file2:
+commit:
+https://github.com/apache/commons-lang/commit/1ea3bee
+parent: bfc2275
+file: StringUtils.java
+changes: +14 -7 (apache)
+
+file3:
+commit: https://github.com/google/gson/commit/e28fdb9303846b8c46fd5b8776f694149d0389d0#diff-f5e0b2c1d134138db96a9ce7fe5c670c85e512c70d12a5180cbdbcf424d3f7d7
+parent:
+2dd7202
+File: ConstructorConstructor.java (gson)
+changes: 
+
+file4:
+commit: https://github.com/google/gson/commit/4e4c2fd
+parent: 7c55d8b
+file: EnumTypeAdapter.java (gson)
+changes: +10 -6
+
+file5:
+commit:https://github.com/google/gson/commit/d4d6744f8c225709e1adcc38eaae4e968c476125
+parent: 99cc4cb
+file: JsonWriter.java
+changes +13 -16
