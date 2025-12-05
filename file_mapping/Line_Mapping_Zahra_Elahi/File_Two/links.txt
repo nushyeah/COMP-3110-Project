@@ -1,0 +1,6 @@
+File Two New:
+https://github.com/facebook/react/blob/eb89912ee5ace8bf8e616cca5a6aeebcd274b521/packages/shared/ReactTypes.js
+
+File Two Old:
+https://github.com/facebook/react/blob/0972e23908b573faa5beebc0eb1154f792c53b62/packages/shared/ReactTypes.js
+

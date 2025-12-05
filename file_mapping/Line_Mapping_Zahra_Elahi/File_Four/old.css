@@ -1,0 +1,34 @@
+.SuspenseRectsContainer {
+  padding: .25rem;
+  outline-color: transparent;
+  outline-style: solid;
+  outline-width: 1px;
+  border-radius: 0.25rem;
+}
+
+.SuspenseRectsRoot {
+  cursor: pointer;
+  outline-color: var(--color-transition);
+  background-color: color-mix(in srgb, var(--color-transition) 5%, transparent);
+}
+
+.SuspenseRectsRoot[data-hovered='true'] {
+  background-color: color-mix(in srgb, var(--color-transition) 15%, transparent);
+}
+
+.SuspenseRectsViewBox {
+  position: relative;
+}
+
+.SuspenseRectsBoundary {
+  pointer-events: all;
+  border-radius: 0.125rem;
+}
+
+.SuspenseRectsBoundary[data-visible='false'] {
+  background-color: transparent;
+}
+
+.SuspenseRectsBoundaryChildren {
+  pointer-events: none;
+}

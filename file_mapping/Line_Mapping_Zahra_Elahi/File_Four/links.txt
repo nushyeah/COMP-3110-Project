@@ -1,0 +1,5 @@
+File Four New:
+https://github.com/facebook/react/blob/6362b5c7118f925acbee884e61ab0fd0b8f14c20/packages/react-devtools-shared/src/devtools/views/SuspenseTab/SuspenseRects.css
+
+File Four Old:
+https://github.com/facebook/react/blob/5a9921b839ad8e3cf0069f23c75045fa94373643/packages/react-devtools-shared/src/devtools/views/SuspenseTab/SuspenseRects.css
