@@ -1,1 +1,41 @@
-Intro to building tool for project
+#Intro to building tool for project
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+
+public class LineMappingTool {
+
+    // Threshold for considering two SimHashes "similar enough"
+    private static final double SIMHASH_THRESHOLD = 0.7; // 0..1 (higher = stricter)
+    private static final int CONTEXT_RADIUS = 2; // lines above/below included in context
+
+    /** Single mapping entry for the output CSV. */
+    private static class MappingEntry {
+        Integer oldLine;  // 1-based line number in old file, or null
+        Integer newLine;  // 1-based line number in new file, or null
+        String status;    // "added", "deleted", or "modified"
+
+        MappingEntry(Integer oldLine, Integer newLine, String status) {
+            this.oldLine = oldLine;
+            this.newLine = newLine;
+            this.status = status;
+        }
+    }
+
+    /** Represents one matched (unchanged) line between old and new (from LCS). */
+    private static class Match {
+        int oldIndex;  // 0-based index in oldLines
+        int newIndex;  // 0-based index in newLines
+
+        Match(int oldIndex, int newIndex) {
+            this.oldIndex = oldIndex;
+            this.newIndex = newIndex;
+        }
+    }
