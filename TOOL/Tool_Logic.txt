@@ -1,0 +1,100 @@
+So our tool will take two sets of files (old & new) and iterate through the following steps:
+
+Step#1) READ AND NORMALIZE LINES 
+    - Read both files line by line 
+        - That means loading each line from the file together with its line number
+    - Clean (nomralize) each line so tiny differences don't break the matching 
+        - That means cleaning the text so that meaningless formatting differences (spaces, tabs, capitalization, comments) do not affect similarity
+    
+    Becasue sometimes source code channges in ways that doesn't change meaning like:
+    - adding space
+    - adding indentation 
+    - capitalizing/lowercasing letters
+    - adding comments 
+    - extra whitespaces 
+    * a more advanced tool would detect these changes but ours won't to make comparision fair, accurate, and simple
+
+Step#2) DETECT UNCHANGED LINES
+    - Find the lines that are exactly the same in new and old file 
+        - We compare the normalized text of each line in the old file to each line in the new file 
+        - If two lines have the exact same normalized text and the new line has not already been matched, we will treat this pair as an unchanged file 
+    - Mark them as mapped and store it as:
+        oldLineNumber -> newLineNumber 
+    So like:
+        - outerloop: go through each old line 
+        - innerloop: go through each new line 
+        - if old.normalized == new.normalized and new line not not matched before --> match 
+    * This will give us a map of all the unchanged lines 
+
+Step#3) GENERATE CANDIDATES FOR CHANGED LINES 
+    * for the remaining lines, the lines moved, added, deleted, or changed/edited 
+    * at this point we have these lines left:
+        - old unmatched lines: these have been edited/changed or moved
+        - new unused lines: these have been added or changed 
+    - Build a candiate list because:
+        - Performance (much faster) & Quality (random wierd matches)
+        - Instead of comparing every unmatched old line with every unmatched new line, we restrict the search to a smaller set of likely candidates
+    - For each unmatched old line, we first look at new lines that are located near the same position (within a fixed line number window)
+    - We also consider whether the lines share common words (tokens)
+    - All new lines that fall within this window and satisfy our basic similarity condition are added to the candidate list for that old line
+    * This step significantly reduces the number of comparisons needed in the next phase and makes the tool more efficient, while still preserving most of the relevant potential matches
+    So like:
+        - To identify unmatched lines
+        - unmatchedOld = all old lines not in unchangedMapping
+        - unmatchedNew = all new lines not in usedNewLines
+        - For each oldLine i in unmatchedOld, we build a list like:
+            - candidates(i) = [newLine a, newLine b, newLine c, ...]
+        - We can choose candidates based on this:
+            - So candidates(i) = all unmatched new lines in that window (optionally filtered by token overlap)
+
+Step#4) COMPUTE SIMILARITY 
+    - For each unmatched old line:
+        - We compute the similarity between each unmatched old line and its candidate new lines, and then choose the best match 
+        - For each pair of lines, we calculate two similarity values:
+            - Content similarity, which measures how similar the textual content of the two lines is (based on the token overlap)
+            - Context similarity, which compares the neighbouring lines around each line 
+            - We then combine these values into a single score using the formula:
+            combinedScore = 0.6 x contentSim + 0.4 x contextSim (got from profs ppt)
+    - For each old line, we select the candidate new line with the highest combined score 
+    - If this score is greater than or equal to our chosen threshold (ex., 0.7), we treat the pair as a valid mapping 
+    - If no candiate reaches the threshold, we mark the old line as deleted and map it to -1
+    - In cases where multiple old lines prefer the same new line, we keep the mapping with the highest similiarity score and re-evaluate the others using their next best candidates 
+    * This step produces the final line mapping between the old and new versions of the file 
+
+Step#5) BEST MATCH 
+    - Now we would refine our mappings by detecting line splits
+        - Because I guess sometimes a long line in the old file can be split intoo multiple shorter lines in the new file 
+    - So we would start from the best single line match found in Step 4 and then graudually extend the mathch by including the following lines in the new file 
+    - After each extension we recompute the similarity between the old line and the concatenation of the selected line 
+    - If adding another new line increases the similarity, we keep it, if adding another line causes the similarity to decrease, we stop 
+    - The final group of new lines is then treated as the best match for the old line 
+    * This allows our tool to map one old line to multiple new lines when appropriate, which improves accuracy in the prescence of line splitting edits 
+    * A little complicted step I think but adds to accuracy part idk if we want to keep it or not idk lol
+
+Step#6) OUTPUT THE MAPPING 
+    - Finally the final part of the tool, we will take all the line mappings computed in the previous steps and write them into a simple txt file 
+        - txt is simple
+        - This txt file represents the complete mappings from the old file to the new file 
+    - For every line number in the old file, we output the corresponding new line number that our tool identified:
+        - If the old line was matched to a new line in the new file (either unchanged or changed) we write the old and new line numbers 
+        - If the old line had no sutible match (like it was deleted) we map it to -1
+        - Where:
+            ORIG= the line number in the old version
+            NEW= the matching line number in the new version (or -1 id deleted)
+    - We generate one txt mapping file per file pair (old and new versions)
+        - Like each mapping file can be saved in our dataset folder with a consistent naming style like:
+            file01_map.txt
+            file02_map.tex
+            etc...
+        - Easy to read, easy to generate from code and I think is enough for our evaluation and the visualization portion of this 
+    - Inserted lines in the new file are not listed but instead can be identified as any new line number that appears as the NEW value in mapping 
+    - Like since our mapping is defined from old line numbers, inserted lines in the new fiel do not appear directly in the txt output 
+    - Any line number that never appears in the NEW column is considered an inserted line 
+    * Our txt mapping format matches the representation used by LHDiff:
+        - each old line is mapped to a new line number,or to -1 if it was deleted
+        - inserted lines are not explicitly listed, as they have no corresponding old line number and instead are implicitly deectable as new lines that never appear as a NEW value 
+        - obv our gui design will still show the inserts through
+
+
+
+
