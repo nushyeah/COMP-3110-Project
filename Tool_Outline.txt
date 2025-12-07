@@ -1,0 +1,10 @@
+FileVersion        – holds all lines of one file (old or new)
+LineRecord         – one line + line number + normalized text
+
+Preprocessor       – Step 1: read + normalize lines
+UnchangedDetector  – Step 2: detect unchanged lines
+CandidateGenerator – Step 3: generate candidate lists
+SimilarityCalculator – Step 4: content + context similarity
+Mapper             – Step 4 (and 5 if we want, i think it would be smart to group): choose best matches
+MappingWriter      – Step 6: write TXT mapping
+LineMappingTool    – Main class that calls everything in order
