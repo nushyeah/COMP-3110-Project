@@ -1,4 +1,6 @@
-package Tool_Classes;
+package tool;
+
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -89,3 +91,4 @@ public class SimilarityCalculator { // this is for similarity calculation
         return (double) intersection.size() / union.size();
     }
 }
+
