@@ -1,4 +1,5 @@
-package Tool_Classes;
+package tool;
+
 
 import java.io.IOException;
 import java.nio.file.Files;
