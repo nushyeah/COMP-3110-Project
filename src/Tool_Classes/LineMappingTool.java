@@ -1,4 +1,5 @@
-package Tool_Classes;
+package tool;
+
 
 import java.io.IOException;
 import java.util.*;
@@ -50,7 +51,7 @@ public class LineMappingTool {
 
 
         CandidateGenerator candidateGenerator = new CandidateGenerator( // Step 3: generate candidates
-                10,   // window size (tweak if needed)
+                15,   // window size (tweak if needed)
                 true  // require token overlap
         );
         Map<Integer, List<Integer>> candidates =
@@ -58,13 +59,13 @@ public class LineMappingTool {
 
         // Step 4: similarity + mapping
         SimilarityCalculator similarityCalculator = new SimilarityCalculator( // we set up similarity calculator
-                2     // context window size (lines above/below)
+                2    // context window size (lines above/below)
         );
         Mapper mapper = new Mapper( // to map lines
                 similarityCalculator,
-                0.7,  // similarity threshold
+                0.6,  // similarity threshold
                 true, // enableSplitRefinement 
-                3     // maxSplitLength (used only if enableSplitRefinement=true)
+                3    // maxSplitLength (used only if enableSplitRefinement=true)
         );
 
         List<MappingEntry> finalMappings =
@@ -92,3 +93,4 @@ public class LineMappingTool {
         tool.run(oldFile, newFile, outFile);
     }
 }
+
