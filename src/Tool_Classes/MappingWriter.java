@@ -1,4 +1,4 @@
-package Tool_Classes;
+package tool;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,9 +10,18 @@ import java.util.List;
 /**
  * Step 6: OUTPUT THE MAPPING
  *
- * Writes the mapping into a simple TXT file.
- * oldLine newLine status
- * where newLine = -1 means deleted.
+ * LHDiff-style plain text mapping:
+ *
+ *   ORIG NEW
+ *   1 1
+ *   2 2
+ *   3 -1
+ *   ...
+ *
+ * - ORIG = line number in the old file
+ * - NEW  = corresponding line in the new file, or -1 if deleted
+ * - Insertions in the new file are *not* listed explicitly; they can be
+ *   inferred from gaps in the NEW column.
  */
 public class MappingWriter {
 
@@ -20,16 +29,20 @@ public class MappingWriter {
         Path out = Path.of(outputPath);
 
         try (BufferedWriter writer = Files.newBufferedWriter(out)) {
-            // Sorting by old line number for readability
+            // Optional header (keep it if your prof likes it, remove if they don't)
+            writer.write("ORIG NEW");
+            writer.newLine();
+
+            // Sort by old line number for readability
             mappingEntries.stream()
                     .sorted(Comparator.comparingInt(e -> e.oldLine))
                     .forEach(entry -> {
                         try {
-                            // Basic LHDiff-compatible format: "old new"
-                            writer.write(entry.oldLine + " " + entry.newLine + " " + entry.status);
+                            // Only "old new" — no status label
+                            writer.write(entry.oldLine + " " + entry.newLine);
                             writer.newLine();
-
                         } catch (IOException ex) {
+                            // Wrap checked exception so we can use forEach
                             throw new RuntimeException(ex);
                         }
                     });
