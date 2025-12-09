@@ -11,8 +11,7 @@ import java.util.List;
  * Step 6: OUTPUT THE MAPPING
  *
  * Writes the mapping into a simple TXT file.
- * Format (one per line):
- *      oldLine newLine
+ * oldLine newLine status
  * where newLine = -1 means deleted.
  */
 public class MappingWriter {
