@@ -75,9 +75,7 @@ public class Mapper { // Mapper class for line mapping
         Set<Integer> unmatchedOldLines = new HashSet<>(allOldLines);
         unmatchedOldLines.removeAll(unchangedMapping.keySet());
 
-        // New lines not used by unchanged
-        Set<Integer> unmatchedNewLines = new HashSet<>(allNewLines); 
-        unmatchedNewLines.removeAll(usedNewLines);
+
 
         // Build candidate matches with scores
         List<CandidateMatch> matches = new ArrayList<>();
