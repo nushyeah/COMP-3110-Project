@@ -1,0 +1,7 @@
+File-3 Sources
+
+Old:
+https://github.com/binux/libMA/blob/7a19420eca2c3dc2cea30ff1cb209cbd7e652619/demoAutoExplore.py
+
+New:
+https://github.com/binux/libMA/blob/a84ddc3440d91f48a89f0065a5c96cc14d5a1e1a/demoAutoExplore.py
