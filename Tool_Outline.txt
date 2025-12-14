@@ -8,3 +8,6 @@ SimilarityCalculator – Step 4: content + context similarity
 Mapper             – Step 4 (and 5 if we want, i think it would be smart to group): choose best matches
 MappingWriter      – Step 6: write TXT mapping   ***Zahra Elahi***
 LineMappingTool    – Main class that calls everything in order
+
+BONUS
+BugFixCommitTool   - bonus to detect bug fixes commits from commit messages ***Zahra Elahi***
