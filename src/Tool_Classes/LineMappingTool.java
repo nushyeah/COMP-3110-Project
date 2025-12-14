@@ -81,7 +81,7 @@ public class LineMappingTool {
      */
     public static void main(String[] args) throws IOException { // main method to run the tool
         if (args.length < 3) {
-            System.err.println("Usage: java Tool_Classes.LineMappingTool <oldFile> <newFile> <outputMappingFile>");
+           System.err.println("Usage: java tool.LineMappingTool <oldFile> <newFile> <outputMappingFile>");
             System.exit(1);
         }
 
